@@ -2,6 +2,7 @@
 namespace application\controllers;
 
 class UserController extends Controller {
+    //로그인
     public function signin() {
         switch(getMethod()){
             case _GET:
@@ -15,17 +16,22 @@ class UserController extends Controller {
                 ];
                 $email = $_POST["email"];
                 
-                $dbdata = $this->model->selUser($param);
+                $dbUser = $this->model->selUser($param);
 
-                if(!$dbdata){   
+                if(!$dbUser){   
                     return "redirect:signin?email={$email}&err";
-                } else if(!password_verify($param["pw"], $dbdata->pw)) {
+                } else if(!password_verify($param["pw"], $dbUser->pw)) {
                     return "redirect:signin?email={$email}&err";
                 }
-                
+                $dbUser->pw = null;
+                $dbUser->regdt = null;
+                $this->flash(_LOGINUSER, $dbUser);
                 return "redirect:/feed/index";
         }
         return "user/signin.php";
+
+
+
     }
 
     public function signup() {
@@ -50,5 +56,8 @@ class UserController extends Controller {
         
     }
 
-
+    public function logout(){
+        $this->flash(_LOGINUSER);
+        return "redirect:/user/signin";
+    }
 }
