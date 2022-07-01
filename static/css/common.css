@@ -200,3 +200,26 @@ table {
 .scroll_smooth {
   scroll-behavior: smooth;
 }
+
+.modal_profile {
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+.modal_profile_size {
+  width: 260px;
+  height: 222px;
+}
+
+hr {
+  margin: 0;
+}
+
+.center {
+  position: absolute;
+  top: auto;
+  left: auto;
+}

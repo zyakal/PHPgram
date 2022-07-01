@@ -16,8 +16,7 @@ class Controller {
         foreach(static::$needLoginUrlArr as $url) {
             if(strpos( $urlPaths, $url) === 0 && !isset($_SESSION[_LOGINUSER]) ) {
                 // header("Location: /user/signin");
-                $this->getView("redirect:/user/signin");
-                exit();
+                $this->getView("redirect:/user/signin");                
             }
         }
 
@@ -34,9 +33,6 @@ class Controller {
             header("Content-Type:application/json");
             echo json_encode($view);
         }        
-    }
-    private function chkLoginUrl() {
-
     }
     
     protected function addAttribute($key, $val) {
