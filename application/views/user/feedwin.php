@@ -40,8 +40,8 @@
                     </div>
                     <div class="d-flex flex-row">
                         <div class="flex-grow-1">게시물 <span><?=$this->data->feedcnt?></span></div>
-                        <div class="flex-grow-1">팔로워 <span><?=$this->data->Follower?></span></div>
-                        <div class="flex-grow-1">팔로우 <span><?=$this->data->Follow?></span></div>
+                        <div class="flex-grow-1">팔로워 <span class="follower"><?=$this->data->Follower?></span></div>
+                        <div class="flex-grow-1">팔로우 <span class="follow"><?=$this->data->Follow?></span></div>
                     </div>
                     <div class="bold"><?=$this->data->nm?></div>
                     <div><?=$this->data->cmt?></div>

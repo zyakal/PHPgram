@@ -29,20 +29,20 @@ getFeedList();
       const param = {
         toiuser: gData.dataset.toiuser,
       };
-      console.log(param);
       const follow = btnFollow.dataset.follow;
+      const follower_sel = document.querySelector(".follower");
+      const follower = ~~follower_sel.innerText;
+
       const followUrl = "/user/follow";
-      console.log("follow :" + follow);
-      console.log(followUrl);
-      console.log(encodeQueryString(param));
+
       switch (follow) {
         case "1": //팔로우취소
           fetch(followUrl + encodeQueryString(param), { method: "DELETE" })
             .then((res) => res.json())
             .then((res) => {
-              console.log("res : " + res);
               if (res.result) {
                 btnFollow.dataset.follow = "0";
+                follower_sel.innerText = follower - 1;
                 btnFollow.classList.remove("btn-outline-secondary");
                 btnFollow.classList.add("btn-primary");
                 if (btnFollow.dataset.youme === "1") {
@@ -60,6 +60,7 @@ getFeedList();
               console.log("res : " + res);
               if (res.result) {
                 btnFollow.dataset.follow = "1";
+                follower_sel.innerText = follower + 1;
                 btnFollow.classList.remove("btn-primary");
                 btnFollow.classList.add("btn-outline-secondary");
                 btnFollow.innerText = "팔로우 취소";

@@ -99,4 +99,5 @@ class UserController extends Controller {
                 return [_RESULT => $this->model->delUserFollow($param)];
         }
     }
+    
 }

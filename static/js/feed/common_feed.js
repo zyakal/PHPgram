@@ -152,6 +152,19 @@ const feedObj = {
 
     const divCmt = document.createElement("div");
     divContainer.appendChild(divCmt);
+
+    if (item.cmt && item.cmt.ismore === 1) {
+      const divMoreCmt = document.createElement("div");
+      divCmt.appendChild(divMoreCmt);
+      const spanMoreCmt = document.createElement("span");
+      divMoreCmt.appendChild(spanMoreCmt);
+      spanMoreCmt.className = "pointer";
+      spanMoreCmt.innerText = "댓글 더보기..";
+      spanMoreCmt.addEventListener("click", (e) => {
+        
+      });
+    }
+
     const divCmtForm = document.createElement("div");
     divCmtForm.className = "d-flex flex-row";
     divCmt.appendChild(divCmtForm);
@@ -160,6 +173,26 @@ const feedObj = {
             <input type="text" class="flex-grow-1 my_input back_color p-2" placeholder="댓글을 입력하세요...">
             <button type="button" class="btn btn-outline-primary">등록</button>
         `;
+    const inputCmt = divCmtForm.querySelector("input");
+    const btnCmtReg = divCmtForm.querySelector("button");
+    btnCmtReg.addEventListener("click", (e) => {
+      const param = {
+        ifeed: item.ifeed,
+        cmt: inputCmt.value,
+      };
+      fetch("/feedCmt/index", {
+        method: "POST",
+        body: JSON.stringify(param),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log("icmt : " + res.result);
+          if (res.result) {
+            inputCmt.value = "";
+            //댓글 공간에 댓글 내용추가
+          }
+        });
+    });
 
     return divContainer;
   },
