@@ -78,10 +78,10 @@ class FeedModel extends Model
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":ifeed", $param["ifeed"]);
         $stmt->bindValue(":iuser", $param["iuser"]);
-
+        
         $stmt->execute();
         return $stmt->rowCount();
-
+        
     }
     public function delFeedFav(&$param) {
         $sql = "DELETE FROM t_feed_fav
@@ -93,4 +93,5 @@ class FeedModel extends Model
         $stmt->execute();
         return $stmt->rowCount();
     }
+    
 }

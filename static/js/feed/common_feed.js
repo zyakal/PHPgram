@@ -253,10 +253,3 @@ function moveToFeedWin(iuser) {
     });
   }
 })();
-
-// (function() {
-//     const btnFollow = document.querySelector("#btnFollow");
-//     btnFollow.addEventListener('click', ()=>{
-
-//     })
-// })();

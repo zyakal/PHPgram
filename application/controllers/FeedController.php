@@ -1,8 +1,6 @@
 <?php
 namespace application\controllers;
 
-use PDO;
-
 class FeedController extends Controller {
     public function index() {
         $this->addAttribute(_JS, ["feed/index","https://unpkg.com/swiper@8/swiper-bundle.min.js"]);
