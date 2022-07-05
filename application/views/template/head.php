@@ -26,3 +26,6 @@
         }
     ?>
 </head>
+
+<div id="gData" data-loginiuser="<?=getIuser()?>"></div> 
+

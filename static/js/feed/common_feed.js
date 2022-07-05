@@ -3,9 +3,23 @@ const feedObj = {
   itemLength: 0,
   currentPage: 1,
   swiper: null,
+  refreshSwipe: function () {
+    if (this.swiper !== null) {
+      this.swiper = null;
+    }
+    this.swiper = new Swiper(".swiper", {
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      pagination: { el: ".swiper-pagination" },
+      allowTouchMove: false,
+      direction: "horizontal",
+      loop: false,
+    });
+  },
   loadingElem: document.querySelector(".loading"),
   containerElem: document.querySelector("#item_container"),
-
   getFeedCmtList: function (ifeed, divCmtList, spanMoreCmt) {
     fetch(`/feedcmt/index?ifeed=${ifeed}`)
       .then((res) => res.json())
@@ -22,7 +36,6 @@ const feedObj = {
         }
       });
   },
-
   makeCmtItem: function (item) {
     const divCmtItemContainer = document.createElement("div");
     divCmtItemContainer.className = "d-flex flex-row align-items-center mb-2";
@@ -30,7 +43,7 @@ const feedObj = {
       "/static/img/profile/" +
       (item.writerimg
         ? `${item.iuser}/${item.writerimg}`
-        : "defaultProfileImg.png");
+        : "defaultProfileImg_100.png");
     divCmtItemContainer.innerHTML = `
           <div class="circleimg h24 w24 me-1">
               <img src="${src}" class="profile w24 pointer">                
@@ -44,16 +57,12 @@ const feedObj = {
               <div>${item.cmt}</div>
           </div>
       `;
-    const cmtImgs = divCmtItemContainer.querySelectorAll(".pointer");
-    cmtImgs.forEach((cmtImg) => {
-      cmtImg.addEventListener("click", () => {
-        moveToFeedWin(item.iuser);
-      });
+    const img = divCmtItemContainer.querySelector("img");
+    img.addEventListener("click", (e) => {
+      moveToFeedWin(item.iuser);
     });
-
     return divCmtItemContainer;
   },
-
   makeFeedList: function (list) {
     if (list.length !== 0) {
       list.forEach((item) => {
@@ -61,24 +70,9 @@ const feedObj = {
         this.containerElem.appendChild(divItem);
       });
     }
-
-    if (this.swiper !== null) {
-      this.swiper = null;
-    }
-    this.swiper = new Swiper(".swiper", {
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      pagination: { el: ".swiper-pagination" },
-      allowTouchMove: false,
-      direction: "horizontal",
-      loop: false,
-    });
-
+    this.refreshSwipe();
     this.hideLoading();
   },
-
   makeFeedItem: function (item) {
     console.log(item);
     const divContainer = document.createElement("div");
@@ -90,7 +84,7 @@ const feedObj = {
     const regDtInfo = getDateTimeInfo(item.regdt);
     divTop.className = "d-flex flex-row ps-3 pe-3";
     const writerImg = `<img src='/static/img/profile/${item.iuser}/${item.mainimg}' 
-          onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg.png"'>`;
+          onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg_100.png"'>`;
 
     divTop.innerHTML = `
           <div class="d-flex flex-column justify-content-center">
@@ -203,7 +197,9 @@ const feedObj = {
 
     const divCmt = document.createElement("div");
     divContainer.appendChild(divCmt);
+
     const spanMoreCmt = document.createElement("span");
+
     if (item.cmt) {
       const divCmtItem = this.makeCmtItem(item.cmt);
       divCmtList.appendChild(divCmtItem);
@@ -230,15 +226,14 @@ const feedObj = {
           <input type="text" class="flex-grow-1 my_input back_color p-2" placeholder="댓글을 입력하세요...">
           <button type="button" class="btn btn-outline-primary">등록</button>
       `;
+
     const inputCmt = divCmtForm.querySelector("input");
     inputCmt.addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         btnCmtReg.click();
       }
     });
-
     const btnCmtReg = divCmtForm.querySelector("button");
-
     btnCmtReg.addEventListener("click", (e) => {
       const param = {
         ifeed: item.ifeed,
@@ -253,13 +248,12 @@ const feedObj = {
           if (res.result) {
             inputCmt.value = "";
             this.getFeedCmtList(param.ifeed, divCmtList, spanMoreCmt);
-            //댓글 공간에 댓글 내용 추가
           }
         });
     });
 
     return divContainer;
-  }, //makefeeditem 선언 끝
+  },
 
   showLoading: function () {
     this.loadingElem.classList.remove("d-none");
@@ -267,7 +261,7 @@ const feedObj = {
   hideLoading: function () {
     this.loadingElem.classList.add("d-none");
   },
-}; //feedObj 선언 끝
+};
 
 function moveToFeedWin(iuser) {
   location.href = `/user/feedwin?iuser=${iuser}`;
@@ -329,10 +323,22 @@ function moveToFeedWin(iuser) {
             .then((myJson) => {
               console.log(myJson);
 
-              if (myJson.result) {
+              if (myJson) {
                 btnClose.click();
 
-                //화면에 등록
+                // 화면에 등록!!!
+                
+                const lData = document.querySelector("#lData");
+                const gData = document.querySelector("#gData");                
+                if (
+                  lData &&
+                  lData.dataset.toiuser !== gData.dataset.loginiuser
+                ) {
+                  return;
+                }
+                const feedItem = feedObj.makeFeedItem(myJson);
+                feedObj.containerElem.prepend(feedItem);
+                feedObj.refreshSwipe();
               }
             });
         });
@@ -351,4 +357,4 @@ function moveToFeedWin(iuser) {
       body.appendChild(selFromComBtn);
     });
   }
-})(); //익명함수 정의와 실행, 269부터
+})();
