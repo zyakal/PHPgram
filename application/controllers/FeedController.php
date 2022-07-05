@@ -41,8 +41,9 @@ class FeedController extends Controller {
                         $this->model->insFeedImg($paramImg);
                     }
 
-                }
-                return ["result" => 1];
+                }                
+
+                return [_RESULT => 1];
             
             
             case _GET:

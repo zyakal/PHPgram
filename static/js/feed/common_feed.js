@@ -5,6 +5,24 @@ const feedObj = {
   swiper: null,
   loadingElem: document.querySelector(".loading"),
   containerElem: document.querySelector("#item_container"),
+
+  getFeedCmtList: function (ifeed, divCmtList, spanMoreCmt) {
+    fetch(`/feedcmt/index?ifeed=${ifeed}`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res && res.length > 0) {
+          if (spanMoreCmt) {
+            spanMoreCmt.remove();
+          }
+          divCmtList.innerHTML = null;
+          res.forEach((item) => {
+            const divCmtItem = this.makeCmtItem(item);
+            divCmtList.appendChild(divCmtItem);
+          });
+        }
+      });
+  },
+
   makeCmtItem: function (item) {
     const divCmtItemContainer = document.createElement("div");
     divCmtItemContainer.className = "d-flex flex-row align-items-center mb-2";
@@ -26,8 +44,16 @@ const feedObj = {
               <div>${item.cmt}</div>
           </div>
       `;
+    const cmtImgs = divCmtItemContainer.querySelectorAll(".pointer");
+    cmtImgs.forEach((cmtImg) => {
+      cmtImg.addEventListener("click", () => {
+        moveToFeedWin(item.iuser);
+      });
+    });
+
     return divCmtItemContainer;
   },
+
   makeFeedList: function (list) {
     if (list.length !== 0) {
       list.forEach((item) => {
@@ -52,6 +78,7 @@ const feedObj = {
 
     this.hideLoading();
   },
+
   makeFeedItem: function (item) {
     console.log(item);
     const divContainer = document.createElement("div");
@@ -176,7 +203,7 @@ const feedObj = {
 
     const divCmt = document.createElement("div");
     divContainer.appendChild(divCmt);
-
+    const spanMoreCmt = document.createElement("span");
     if (item.cmt) {
       const divCmtItem = this.makeCmtItem(item.cmt);
       divCmtList.appendChild(divCmtItem);
@@ -186,11 +213,12 @@ const feedObj = {
         divCmt.appendChild(divMoreCmt);
         divMoreCmt.className = "ms-3 mb-3";
 
-        const spanMoreCmt = document.createElement("span");
         divMoreCmt.appendChild(spanMoreCmt);
         spanMoreCmt.className = "pointer rem0_9 c_lightgray";
         spanMoreCmt.innerText = "댓글 더보기..";
-        spanMoreCmt.addEventListener("click", (e) => {});
+        spanMoreCmt.addEventListener("click", (e) => {
+          this.getFeedCmtList(item.ifeed, divCmtList, spanMoreCmt);
+        });
       }
     }
 
@@ -203,7 +231,14 @@ const feedObj = {
           <button type="button" class="btn btn-outline-primary">등록</button>
       `;
     const inputCmt = divCmtForm.querySelector("input");
+    inputCmt.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        btnCmtReg.click();
+      }
+    });
+
     const btnCmtReg = divCmtForm.querySelector("button");
+
     btnCmtReg.addEventListener("click", (e) => {
       const param = {
         ifeed: item.ifeed,
@@ -215,16 +250,16 @@ const feedObj = {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log("icmt : " + res.result);
           if (res.result) {
             inputCmt.value = "";
+            this.getFeedCmtList(param.ifeed, divCmtList, spanMoreCmt);
             //댓글 공간에 댓글 내용 추가
           }
         });
     });
 
     return divContainer;
-  },
+  }, //makefeeditem 선언 끝
 
   showLoading: function () {
     this.loadingElem.classList.remove("d-none");
@@ -232,7 +267,7 @@ const feedObj = {
   hideLoading: function () {
     this.loadingElem.classList.add("d-none");
   },
-};
+}; //feedObj 선언 끝
 
 function moveToFeedWin(iuser) {
   location.href = `/user/feedwin?iuser=${iuser}`;
@@ -296,6 +331,8 @@ function moveToFeedWin(iuser) {
 
               if (myJson.result) {
                 btnClose.click();
+
+                //화면에 등록
               }
             });
         });
@@ -314,4 +351,4 @@ function moveToFeedWin(iuser) {
       body.appendChild(selFromComBtn);
     });
   }
-})();
+})(); //익명함수 정의와 실행, 269부터

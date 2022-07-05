@@ -26,13 +26,13 @@ class Application{
 
         $controllerName = 'application\controllers\\' . $controller . 'controller';                
         $model = $this->getModel($controller);
-        new $controllerName($action, $model);
+        new $controllerName($action, $model); //컨트롤러 객체 생성
     }
 
     public static function getModel($key) {
         if(!in_array($key, static::$modelList)) {
             $modelName = 'application\models\\' . $key . 'model';
-            static::$modelList[$key] = new $modelName();
+            static::$modelList[$key] = new $modelName(); //모델 객체 생성
         }
         return static::$modelList[$key];
     }
