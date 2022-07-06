@@ -83,6 +83,7 @@ class UserController extends Controller {
                 foreach($list as $item){
                     $param2 = [ "ifeed" => $item->ifeed];
                     $item->imgList = Application::getModel("feed")->selFeedImgList($param2);
+                    $item->cmt = Application::getModel("feedcmt")->selFeedCmt($param2);
                 }
                 return $list;
         

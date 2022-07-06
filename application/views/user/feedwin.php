@@ -63,7 +63,9 @@
             <div class="modal-header justify-content-center bold" >프로필 사진 바꾸기</div>            
             <div class="modal-body container-center pointer"  style="color:#0095F6">사진 업로드</div>
             <hr>
+            <?php if(isset($this->data->mainimg)){ ?>
             <div id = "btnDelCurrentProfilePic" class="modal-body container-center pointer" style="color:#ED4956">현재 사진 삭제</div>
+            <?php } ?>
             <hr>
             <div class="modal-body container-center" style="color:#262626"><span  id="btnProfileImgModalClose" class="pointer" data-bs-dismiss="modal">취소</span></div>
             </div>
