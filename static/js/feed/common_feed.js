@@ -409,3 +409,21 @@ function moveToFeedWin(iuser) {
     });
   }
 })();
+(function () {
+  const btnNewUserImg = document.querySelector("#btnNewUserImg");
+  const modal = document.querySelector("#newUserImg");
+  const frmElem = modal.querySelector("form");
+  const body = modal.querySelector("#id-modal-body");
+
+  btnNewUserImg.addEventListener("click", function () {
+    const selFromComBtn = document.createElement("button");
+    selFromComBtn.type = "button";
+    selFromComBtn.className = "btn btn-primary";
+    selFromComBtn.innerText = "컴퓨터에서 선택";
+    selFromComBtn.addEventListener("click", function () {
+      frmElem.imgs.click();
+    });
+    body.innerHTML = null;
+    body.appendChild(selFromComBtn);
+  });
+})();

@@ -39,6 +39,7 @@ if (feedObj) {
   const btnProfileImgModalClose = document.querySelector(
     "#btnProfileImgModalClose"
   );
+  const btnInsProfilePic = document.querySelector("#btnInsProfilePic");
   if (btnFollow) {
     btnFollow.addEventListener("click", () => {
       const param = {
@@ -95,6 +96,18 @@ if (feedObj) {
             profileImgList.forEach((item) => {
               item.src = "/static/img/profile/defaultProfileImg.png";
             });
+          }
+          btnProfileImgModalClose.click();
+        });
+    });
+  }
+  if (btnInsProfilePic) {
+    btnInsProfilePic.addEventListener("click", (e) => {
+      fetch("/user/profile", { method: "POST" })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.result) {
+            
           }
           btnProfileImgModalClose.click();
         });

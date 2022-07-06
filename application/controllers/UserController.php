@@ -120,6 +120,18 @@ class UserController extends Controller {
                     }
                 }
                 return [_RESULT => 0];
+            case _POST:
+                $loginUser = getLoginUser();
+                if($loginUser) {
+                    $path = "static/img/profile/{$loginUser->iuser}/{$loginUser->mainimg}";
+                    if(file_exists($path) && unlink($path)){
+                        $param = [ "iuser" => $loginUser->iuser, "delMainImg" => '', "mainimg" => $loginUser->mainimg];
+                        if($this->model->updUser($param)){
+                            $loginUser->mainimg = null;
+                            return [_RESULT => 1];
+                        }
+                    }
+                }
         }
     }
 }

@@ -60,8 +60,10 @@
     <div class="modal-dialog modal_profile_size  modal-dialog-centered">
         <div class="modal-content modal_profile align-content-center justify-content-center" id="newUserContent">
             <div class="h-full">
-            <div class="modal-header justify-content-center bold" >프로필 사진 바꾸기</div>            
-            <div class="modal-body container-center pointer"  style="color:#0095F6">사진 업로드</div>
+            <div class="modal-header justify-content-center bold" >프로필 사진 바꾸기</div>      
+            <a href="#" id="btnNewUserImg" data-bs-toggle="modal" data-bs-target="#newUserImg">      
+            <div id = "btnInsProfilePic"class="modal-body container-center pointer"  style="color:#0095F6">사진 업로드</div>
+            </a>
             <hr>
             <?php if(isset($this->data->mainimg)){ ?>
             <div id = "btnDelCurrentProfilePic" class="modal-body container-center pointer" style="color:#ED4956">현재 사진 삭제</div>
@@ -72,5 +74,23 @@
         </div>
 
         
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="newUserImg" tabindex="-1" aria-labelledby="newUserImgLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content" id="newFeedModalContent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUserImgLabel">사진 업로드</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="id-modal-body"></div>
+        </div>
+
+        <form class="d-none">
+            <input type="file" accept="image/*" name="imgs" multiple>
+        </form>
     </div>
 </div>
