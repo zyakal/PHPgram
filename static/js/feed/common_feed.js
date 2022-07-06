@@ -84,7 +84,7 @@ const feedObj = {
         : "defaultProfileImg.png");
     divCmtItemContainer.innerHTML = `
           <div class="circleimg h24 w24 me-1">
-              <img src="${src}" class="profile w24 pointer">                
+              <img src="${src}" class="profile w24 pointer profileimg">                
           </div>
           <div class="d-flex flex-row">
               <div class="pointer me-2">${
@@ -121,7 +121,7 @@ const feedObj = {
 
     const regDtInfo = getDateTimeInfo(item.regdt);
     divTop.className = "d-flex flex-row ps-3 pe-3";
-    const writerImg = `<img src='/static/img/profile/${item.iuser}/${item.mainimg}' 
+    const writerImg = `<img class='profileimg' src='/static/img/profile/${item.iuser}/${item.mainimg}' 
           onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg.png"'>`;
 
     divTop.innerHTML = `

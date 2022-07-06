@@ -7,7 +7,7 @@
                     <a href="#" id="btnNewUser" data-bs-toggle="modal" data-bs-target="#newUser">
                         <div class="circleimg h150 w150 pointer feedwin">
                             
-                            <img src='/static/img/profile/<?=$this->data->iuser?>/<?=$this->data->mainimg?>' onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg.png"'>
+                            <img class='profileimg' src='/static/img/profile/<?=$this->data->iuser?>/<?=$this->data->mainimg?>' onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg.png"'>
                         </div>
                     </a>
                 </div>
@@ -65,7 +65,7 @@
             <hr>
             <div id = "btnDelCurrentProfilePic" class="modal-body container-center pointer" style="color:#ED4956">현재 사진 삭제</div>
             <hr>
-            <div class="modal-body container-center" style="color:#262626"><span class="pointer" data-bs-dismiss="modal">취소</span></div>
+            <div class="modal-body container-center" style="color:#262626"><span  id="btnProfileImgModalClose" class="pointer" data-bs-dismiss="modal">취소</span></div>
             </div>
         </div>
 

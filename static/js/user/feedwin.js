@@ -36,6 +36,9 @@ if (feedObj) {
   const btnDelCurrentProfilePic = document.querySelector(
     "#btnDelCurrentProfilePic"
   );
+  const btnProfileImgModalClose = document.querySelector(
+    "#btnProfileImgModalClose"
+  );
   if (btnFollow) {
     btnFollow.addEventListener("click", () => {
       const param = {
@@ -83,6 +86,18 @@ if (feedObj) {
     });
   }
   if (btnDelCurrentProfilePic) {
-    btnDelCurrentProfilePic.addEventListener("click", () => {});
+    btnDelCurrentProfilePic.addEventListener("click", (e) => {
+      fetch("/user/profile", { method: "DELETE" })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.result) {
+            const profileImgList = document.querySelectorAll(".profileimg");
+            profileImgList.forEach((item) => {
+              item.src = "/static/img/profile/defaultProfileImg.png";
+            });
+          }
+          btnProfileImgModalClose.click();
+        });
+    });
   }
 })();

@@ -7,8 +7,8 @@
         function getIuser(){
             return getLoginUser() === null ? 0 : getLoginUser()->iuser;
         }
-        function getMainImgSrc(){        
-            return getIuser() . "/". $_SESSION[_LOGINUSER]->mainimg;
+        function getMainImgSrc(){                   
+            return getIuser() . "/". getLoginUser()->mainimg;
         }
         
     
