@@ -52,10 +52,11 @@ class FeedController extends Controller {
                 if(isset($_GET["page"])) {
                     $page = intval($_GET["page"]);
                 }
-                $startIdx = ($page - 1) * _FEED_ITEM_CNT;
+                $startIdx = ($page - 1) * $_GET["limit"];
                 $param = [
                     "startIdx" => $startIdx,
-                    "iuser" => getIuser()
+                    "iuser" => getIuser(),
+                    "limit" => $_GET["limit"]
                 ];                
                 $list= $this->model->selFeedList($param);
                 foreach($list as $item){

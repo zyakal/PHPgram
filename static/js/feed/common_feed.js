@@ -1,5 +1,5 @@
 const feedObj = {
-  limit: 20,
+  limit: 5,
   itemLength: 0,
   currentPage: 1,
   swiper: null,
@@ -28,6 +28,7 @@ const feedObj = {
     const param = {
       page: this.currentPage++,
       iuser: this.iuser,
+      limit: this.limit,
     };
     fetch(this.getFeedUrl + encodeQueryString(param))
       .then((res) => res.json())

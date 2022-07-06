@@ -99,7 +99,7 @@ class UserModel extends Model {
         $stmt->bindValue(":toiuser", $param["toiuser"]);
         $stmt->bindValue(":loginiuser", $param["loginiuser"]);
         $stmt->bindValue(":startIdx", $param["startIdx"]);
-        $stmt->bindValue(":feedItemCnt", _FEED_ITEM_CNT);
+        $stmt->bindValue(":feedItemCnt", $param["limit"]);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);        
     }

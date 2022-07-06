@@ -56,7 +56,7 @@ class FeedModel extends Model
          $stmt = $this->pdo->prepare($sql);
          $stmt->bindValue(":iuser", $param["iuser"]);
          $stmt->bindValue(":startIdx", $param["startIdx"]);
-         $stmt->bindValue(":feedItemCnt", _FEED_ITEM_CNT);
+         $stmt->bindValue(":feedItemCnt", $param["limit"]);
          $stmt->execute();
          return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
