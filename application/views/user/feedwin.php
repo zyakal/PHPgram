@@ -61,9 +61,9 @@
         <div class="modal-content modal_profile align-content-center justify-content-center" id="newUserContent">
             <div class="h-full">
             <div class="modal-header justify-content-center bold" >프로필 사진 바꾸기</div>            
-            <div class="modal-body container-center"  style="color:#0095F6">사진 업로드</div>
+            <div class="modal-body container-center pointer"  style="color:#0095F6">사진 업로드</div>
             <hr>
-            <div class="modal-body container-center" style="color:#ED4956">현재 사진 삭제</div>
+            <div id = "btnDelCurrentProfilePic" class="modal-body container-center pointer" style="color:#ED4956">현재 사진 삭제</div>
             <hr>
             <div class="modal-body container-center" style="color:#262626"><span class="pointer" data-bs-dismiss="modal">취소</span></div>
             </div>

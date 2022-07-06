@@ -192,7 +192,7 @@ const feedObj = {
               heartIcon.classList.remove("fas");
               heartIcon.classList.add("far");
               item.favCnt = item.favCnt - 1;
-              spanFavCnt.innerHTML = `좋아요 ${item.favCnt} 개`;
+
               if (item.favCnt === 0) {
                 spanFavCnt.innerHTML = "";
                 divFav.classList.add("d-none");
@@ -202,11 +202,12 @@ const feedObj = {
               heartIcon.classList.remove("far");
               heartIcon.classList.add("fas");
               item.favCnt = item.favCnt + 1;
-              spanFavCnt.innerHTML = `좋아요 ${item.favCnt} 개`;
+
               if (item.favCnt >= 1) {
                 divFav.classList.remove("d-none");
               }
             }
+            spanFavCnt.innerHTML = `좋아요 ${item.favCnt} 개`;
           } else {
             alert("좋아요를 할 수 없습니다.");
           }

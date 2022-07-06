@@ -33,6 +33,9 @@ if (feedObj) {
 (function () {
   const lData = document.querySelector("#lData");
   const btnFollow = document.querySelector("#btnFollow");
+  const btnDelCurrentProfilePic = document.querySelector(
+    "#btnDelCurrentProfilePic"
+  );
   if (btnFollow) {
     btnFollow.addEventListener("click", () => {
       const param = {
@@ -78,5 +81,8 @@ if (feedObj) {
           break;
       }
     });
+  }
+  if (btnDelCurrentProfilePic) {
+    btnDelCurrentProfilePic.addEventListener("click", () => {});
   }
 })();
