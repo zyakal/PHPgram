@@ -3,6 +3,43 @@ const feedObj = {
   itemLength: 0,
   currentPage: 1,
   swiper: null,
+  getFeedUrl: "",
+  iuser: 0,
+  setScrollInfinity: function () {
+    window.addEventListener(
+      "scroll",
+      (e) => {
+        const { scrollTop, scrollHeight, clientHeight } =
+          document.documentElement;
+
+        if (
+          scrollTop + clientHeight >= scrollHeight - 5 &&
+          this.itemLength === this.limit
+        ) {
+          this.getFeedList();
+        }
+      },
+      { passive: true }
+    );
+  },
+  getFeedList: function () {
+    this.itemLength = 0;
+    this.showLoading();
+    const param = {
+      page: this.currentPage++,
+      iuser: this.iuser,
+    };
+    fetch(this.getFeedUrl + encodeQueryString(param))
+      .then((res) => res.json())
+      .then((list) => {
+        this.itemLength = list.length;
+        this.makeFeedList(list);
+      })
+      .catch((e) => {
+        console.error(e);
+        this.hideLoading();
+      });
+  },
   refreshSwipe: function () {
     if (this.swiper !== null) {
       this.swiper = null;
@@ -43,7 +80,7 @@ const feedObj = {
       "/static/img/profile/" +
       (item.writerimg
         ? `${item.iuser}/${item.writerimg}`
-        : "defaultProfileImg_100.png");
+        : "defaultProfileImg.png");
     divCmtItemContainer.innerHTML = `
           <div class="circleimg h24 w24 me-1">
               <img src="${src}" class="profile w24 pointer">                
@@ -64,6 +101,7 @@ const feedObj = {
     return divCmtItemContainer;
   },
   makeFeedList: function (list) {
+    console.log(list);
     if (list.length !== 0) {
       list.forEach((item) => {
         const divItem = this.makeFeedItem(item);
@@ -74,7 +112,6 @@ const feedObj = {
     this.hideLoading();
   },
   makeFeedItem: function (item) {
-    console.log(item);
     const divContainer = document.createElement("div");
     divContainer.className = "item mt-3 mb-3";
 
@@ -84,7 +121,7 @@ const feedObj = {
     const regDtInfo = getDateTimeInfo(item.regdt);
     divTop.className = "d-flex flex-row ps-3 pe-3";
     const writerImg = `<img src='/static/img/profile/${item.iuser}/${item.mainimg}' 
-          onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg_100.png"'>`;
+          onerror='this.error=null;this.src="/static/img/profile/defaultProfileImg.png"'>`;
 
     divTop.innerHTML = `
           <div class="d-flex flex-column justify-content-center">
@@ -327,9 +364,9 @@ function moveToFeedWin(iuser) {
                 btnClose.click();
 
                 // 화면에 등록!!!
-                
+
                 const lData = document.querySelector("#lData");
-                const gData = document.querySelector("#gData");                
+                const gData = document.querySelector("#gData");
                 if (
                   lData &&
                   lData.dataset.toiuser !== gData.dataset.loginiuser
@@ -339,6 +376,7 @@ function moveToFeedWin(iuser) {
                 const feedItem = feedObj.makeFeedItem(myJson);
                 feedObj.containerElem.prepend(feedItem);
                 feedObj.refreshSwipe();
+                window.scrollTo(0, 0);
               }
             });
         });
