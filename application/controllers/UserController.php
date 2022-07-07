@@ -122,16 +122,35 @@ class UserController extends Controller {
                 return [_RESULT => 0];
             case _POST:
                 $loginUser = getLoginUser();
-                if($loginUser) {
-                    $path = "static/img/profile/{$loginUser->iuser}/{$loginUser->mainimg}";
-                    if(file_exists($path) && unlink($path)){
-                        $param = [ "iuser" => $loginUser->iuser, "delMainImg" => '', "mainimg" => $loginUser->mainimg];
-                        if($this->model->updUser($param)){
-                            $loginUser->mainimg = null;
-                            return [_RESULT => 1];
-                        }
-                    }
+                $preProfileImg = $loginUser->mainimg;
+                
+                $paramImg["iuser"] = $loginUser->iuser;
+                if(!is_array($_FILES) || !isset($_FILES["imgs"])) {
+                    return ["result" => 0];
                 }
+                
+                $saveDirectory = _IMG_PATH . "/profile/" . $loginUser->iuser;
+                if(!is_dir($saveDirectory)) {
+                    mkdir($saveDirectory, 0777, true);
+                }
+                $tempName = $_FILES['imgs']['tmp_name'];
+                $fileNm = $_FILES["imgs"]["name"];
+                $randomFileNm = getRandomFileNm($fileNm);
+                $fullDirectory = $saveDirectory . "/" . $randomFileNm;
+                
+                $preProfileImgDir = $saveDirectory . "/" . $preProfileImg;
+                    if(move_uploaded_file($tempName, $fullDirectory)) {
+                        if(file_exists($preProfileImgDir)){
+                            unlink($preProfileImgDir);
+                        }
+                        $paramImg["mainimg"] = $randomFileNm;
+                        $this->model->updUser($paramImg);
+                        $loginUser->mainimg = $randomFileNm;
+
+                    }
+                    
+                
+                return  [_RESULT => $fullDirectory];
         }
     }
 }

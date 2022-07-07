@@ -39,7 +39,7 @@ if (feedObj) {
   const btnProfileImgModalClose = document.querySelector(
     "#btnProfileImgModalClose"
   );
-  const btnInsProfilePic = document.querySelector("#btnInsProfilePic");
+
   if (btnFollow) {
     btnFollow.addEventListener("click", () => {
       const param = {
@@ -101,16 +101,73 @@ if (feedObj) {
         });
     });
   }
-  if (btnInsProfilePic) {
-    btnInsProfilePic.addEventListener("click", (e) => {
-      fetch("/user/profile", { method: "POST" })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.result) {
-            
-          }
-          btnProfileImgModalClose.click();
-        });
+})();
+
+// ------------------개인 프로필 사진 업로드 ------------------------
+(function () {
+  const btnNewUserImg = document.querySelector("#btnNewUserImg");
+  const modal = document.querySelector("#newUserImg");
+  const frmElem = modal.querySelector("form");
+  const body = modal.querySelector("#id-modal-body");
+  if (btnNewUserImg) {
+    btnNewUserImg.addEventListener("click", function () {
+      const selFromComBtn = document.createElement("button");
+      selFromComBtn.type = "button";
+      selFromComBtn.className = "btn btn-primary";
+      selFromComBtn.innerText = "컴퓨터에서 선택";
+      selFromComBtn.addEventListener("click", function () {
+        frmElem.imgs.click();
+      });
+      body.innerHTML = null;
+      body.appendChild(selFromComBtn);
     });
   }
+
+  //이미지 값이 변하면
+  frmElem.imgs.addEventListener("change", function (e) {
+    if (e.target.files.length > 0) {
+      body.innerHTML = `      
+                <div>
+                    <div class="d-flex flex-md-row">
+                        <div class="flex-grow-1 h-full"><img id="id-img" class="w300"></div>                        
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-primary">사진 업로드</button>
+                </div>
+            `;
+
+      const profileImgList = document.querySelectorAll(".profileimg");
+      const imgElem = body.querySelector("#id-img");
+
+      const imgSource = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.readAsDataURL(imgSource);
+      reader.onload = function () {
+        imgElem.src = reader.result;
+      };
+
+      const btnInsProfilePic = modal.querySelector("button");
+
+      if (btnInsProfilePic) {
+        btnInsProfilePic.addEventListener("click", (e) => {
+          const btnClose = document.querySelector("#profile-btn-close");
+          const fData = new FormData();
+          fData.append("imgs", imgSource);
+          fetch("/user/profile", {
+            method: "post",
+            body: fData,
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              profileImgList.forEach((item) => {
+                item.src = reader.result;
+              });
+              btnClose.click();
+            });
+        });
+      }
+    }
+  });
 })();

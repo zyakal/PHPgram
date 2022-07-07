@@ -56,6 +56,7 @@
 
 
 <!--Modal -->
+<?php if($this->data->iuser === getIuser()){ ?>
 <div class="modal fade" id="newUser" tabindex="-1" aria-labelledby="newUserImg" aria-hidden="true">
     <div class="modal-dialog modal_profile_size  modal-dialog-centered">
         <div class="modal-content modal_profile align-content-center justify-content-center" id="newUserContent">
@@ -69,7 +70,7 @@
             <div id = "btnDelCurrentProfilePic" class="modal-body container-center pointer" style="color:#ED4956">현재 사진 삭제</div>
             <?php } ?>
             <hr>
-            <div class="modal-body container-center" style="color:#262626"><span  id="btnProfileImgModalClose" class="pointer" data-bs-dismiss="modal">취소</span></div>
+            <div class="modal-body container-center pointer" style="color:#262626"><span  id="btnProfileImgModalClose"  data-bs-dismiss="modal">취소</span></div>
             </div>
         </div>
 
@@ -77,16 +78,19 @@
     </div>
 </div>
 
+<?php } ?>
+
 
 
 <div class="modal fade" id="newUserImg" tabindex="-1" aria-labelledby="newUserImgLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-s">
         <div class="modal-content" id="newFeedModalContent">
             <div class="modal-header">
                 <h5 class="modal-title" id="newUserImgLabel">사진 업로드</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div id="profile-btn-close" data-bs-dismiss="modal" aria-label="Close"></div>
             </div>
             <div class="modal-body" id="id-modal-body"></div>
+            
         </div>
 
         <form class="d-none">
