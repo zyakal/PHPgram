@@ -35,8 +35,7 @@
                         
                         
 
-                        
-                       
+                    
                     </div>
                     <div class="d-flex flex-row">
                         <div class="flex-grow-1">게시물 <span><?=$this->data->feedcnt?></span></div>
